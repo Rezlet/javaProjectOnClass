@@ -1,16 +1,18 @@
 package bigProject;
 
+import java.util.Scanner;
+
 public class Person {
     private String name;
 
-    public Person(String name, String date, String id) {
+    public Person(String name, int date, String id) {
         this.name = name;
         this.date = date;
         this.id = id;
     }
 
     public Person() {
-        this("","","");
+        this("",0,"");
     }
 
     public Person(Person person) {
@@ -25,11 +27,11 @@ public class Person {
         this.name = name;
     }
 
-    public String getDate() {
+    public int getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(int date) {
         this.date = date;
     }
 
@@ -42,8 +44,17 @@ public class Person {
     }
 
 
+    public void input() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Import id: ");
+        this.setId(scanner.nextLine());
+        System.out.print("Import name: ");
+        this.setName(scanner.nextLine());
+        System.out.print("Import year of birth: ");
+        this.setDate(scanner.nextInt());
+    }
 
-    private String date;
+    private int date;
     private String id;
 
 }
