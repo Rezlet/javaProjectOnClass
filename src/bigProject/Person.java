@@ -54,6 +54,13 @@ public class Person {
         this.setDate(scanner.nextInt());
     }
 
+    @Override
+    public String toString() {
+        return "name='" + name + '\'' +
+                ", date=" + date +
+                ", id='" + id + '\'';
+    }
+
     private int date;
     private String id;
 

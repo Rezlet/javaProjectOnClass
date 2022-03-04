@@ -65,6 +65,16 @@ public class NV extends Person {
         this.setTimeWork(scanner.nextInt());
     }
 
+    @Override
+    public String toString() {
+        String temp = super.toString();
+        return "NV{" + temp +
+                "salary=" + salary +
+                ", timeWork=" + timeWork +
+                ", chucVu='" + chucVu + '\'' +
+                '}';
+    }
+
     private String chucVu;
 
 }

@@ -1,5 +1,7 @@
 package bigProject;
 
+import java.util.Scanner;
+
 public class KH extends Person {
     public KH(String name, int date, String id, String numberCar, String company) {
         super(name, date, id);
@@ -33,6 +35,15 @@ public class KH extends Person {
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public void input () {
+        super.input();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Import your number car: ");
+        this.setNumberCar(scanner.nextLine());
+        System.out.print("Import company: ");
+        this.setCompany(scanner.nextLine());
     }
 
     private String numberCar, company;
