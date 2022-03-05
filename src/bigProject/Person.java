@@ -5,18 +5,18 @@ import java.util.Scanner;
 public class Person {
     private String name;
 
-    public Person(String name, int date, String id) {
+    public Person(String id, String name, int date) {
         this.name = name;
         this.date = date;
         this.id = id;
     }
 
     public Person() {
-        this("",0,"");
+        this("","",0);
     }
 
     public Person(Person person) {
-        this(person.name, person.date, person.id);
+        this(person.id, person.name, person.date);
     }
 
     public String getName() {
@@ -56,9 +56,9 @@ public class Person {
 
     @Override
     public String toString() {
-        return "name='" + name + '\'' +
-                ", date=" + date +
-                ", id='" + id + '\'';
+        return id +
+                "," + name +
+                "," + date;
     }
 
     private int date;

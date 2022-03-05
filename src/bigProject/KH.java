@@ -3,8 +3,8 @@ package bigProject;
 import java.util.Scanner;
 
 public class KH extends Person {
-    public KH(String name, int date, String id, String numberCar, String company) {
-        super(name, date, id);
+    public KH(String id, String name, int date, String numberCar, String company) {
+        super(id, name, date);
         this.numberCar = numberCar;
         this.company = company;
     }
@@ -16,7 +16,7 @@ public class KH extends Person {
     }
 
     public KH(KH kh) {
-        super(kh.getName(), kh.getDate(), kh.getId());
+        super(kh.getId(), kh.getId(), kh.getDate());
         this.numberCar = kh.numberCar;
         this.company = kh.company;
     }

@@ -55,6 +55,7 @@ public class Xang {
     }
 
     public void input() {
+        QLXang qlXang = new QLXang();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Import ID: ");
         setIdXang(scanner.nextLine());
@@ -66,7 +67,7 @@ public class Xang {
         setMarketPrice(scanner.nextFloat());
         System.out.print("Import inventory: ");
         setInventory(scanner.nextFloat());
-
+        qlXang.appendToData(this);
     }
 
     @Override
@@ -88,6 +89,14 @@ public class Xang {
 
     public Xang() {
         this("", "", 0,0,0,0);
+    }
+
+    public float moneyToGas(float money) {
+        return money / this.getCost();
+    }
+
+    public float getRevenue() {
+        return this.cost * this.sold;
     }
 
     public Xang(Xang xang) {
