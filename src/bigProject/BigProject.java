@@ -6,13 +6,7 @@ import java.util.Scanner;
 
 public class BigProject {
     public static void main(String[] args) {
-        MainMethods main = new MainMethods();
-        if(main.logInAdmin() == true){
-            System.out.println("This is admin");
-        }else {
-            System.out.println("This is staff");
-
-        };
-
-    }
+      Start start = new Start();
+      start.run();
+}
 }

@@ -2,6 +2,7 @@ package bigProject;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -81,11 +82,11 @@ public class NV extends Person {
     @Override
     public void input() {
         super.input();
-        String tempPos = "";
-        QL_NV ql_nv = new QL_NV();
-        String password = "";
 
         Scanner scanner = new Scanner(System.in);
+        String tempPos = "";
+        String password = "";
+
         do {
             System.out.print("Import position(AD or NV): ");
             tempPos = scanner.nextLine();
@@ -101,10 +102,99 @@ public class NV extends Person {
             System.out.print("Import password: ");
             scanner.nextLine();
             password = scanner.nextLine();
-            ql_nv.createPasswordAdmin( this.getId(), password);
+            this.createPasswordAdmin( this.getId(), password);
         }
-        ql_nv.appendToDataNV(this);
+        this.appendToDataNV(this);
     }
+
+    public ArrayList<NV> fetchNVhavePassword() {
+        ArrayList<NV> list ;
+        list = this.fetchNVNonePassword();
+        try {
+            FileReader fr = new FileReader("DSAD.txt");
+            BufferedReader br = new BufferedReader(fr);
+            while(true) {
+                String line = br.readLine();
+                if (line == null)
+                    break;
+                String txt[] = line.split(",");
+                String idAdmin = txt[0];
+                String password = txt[1];
+                for (NV nhanvien: list) {
+                    if(nhanvien.getId().equals(idAdmin)){
+                        nhanvien.setPassword(password);
+                    }
+                }
+            }
+        }catch (Exception e){
+
+        }
+        return list;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "," + salary +
+                "," + timeWork +
+                "," + chucVu;
+    }
+
+    public void appendToDataNV(NV nv) {
+        try{
+            FileWriter fw = new FileWriter("DSNV.txt",true);
+            fw.write(nv.toString() + "\n");
+            fw.close();
+        } catch (Exception e) {
+
+        }
+    }
+
+    public boolean logInAdmin(){
+        String tempId = "";
+        boolean isRight = false;
+        boolean isRight2 = false;
+
+        NV nv = new NV();
+        ArrayList<NV> listNV;
+        listNV = nv.fetchNVhavePassword();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your ID: ");
+        do {
+            tempId = scanner.nextLine();
+            for (NV nhanvien:listNV) {
+                isRight = nhanvien.getId().equals(tempId);
+                if (isRight){
+                    nv = nhanvien;
+                    break;
+                }
+            }
+
+            if (!isRight){
+                System.out.println("Your id doesn't exist, Please re-enter");
+            }
+        }while(!isRight);
+
+        if (nv.getChucVu().equals("AD")){
+            System.out.print("Enter your password: ");
+            do {
+                String password = "";
+                password = scanner.nextLine();
+                for (NV nhanvien: listNV) {
+                    if(nhanvien.getPassword().equals(password)){
+                        isRight2 = true;
+                        System.out.println("Login Admin successful! ");
+                    };
+                }
+                if (!isRight2){
+                    System.out.println("Wrong password, Please re-enter");
+                }
+            }while(!isRight2);
+        }
+
+        return isRight2;
+    }
+
 
     public ArrayList<NV> fetchNVNonePassword () {
         ArrayList<NV> list = new ArrayList<>();
@@ -133,40 +223,48 @@ public class NV extends Person {
         return list;
     }
 
-    public ArrayList<NV> fetchNVhavePassword() {
-        ArrayList<NV> list = new ArrayList<>();
-        list = this.fetchNVNonePassword();
-        try {
-            FileReader fr = new FileReader("DSAD.txt");
-            BufferedReader br = new BufferedReader(fr);
-            while(true) {
-                String line = br.readLine();
-                if (line == null)
-                    break;
-                String txt[] = line.split(",");
-                String idAdmin = txt[0];
-                String password = txt[1];
-                for (NV nhanvien: list) {
-                    if(nhanvien.getId().equals(idAdmin)){
-                        nhanvien.setPassword(password);
-                    }
-                }
-            }
-        }catch (Exception e){
+
+
+    public void refreshData(){
+        ArrayList<NV> dsnv = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        int n;
+        System.out.print("Nhap so nhan vien: ");
+        n = scanner.nextInt();
+        NV[] nv = new NV[n];
+        for (int i = 0; i < n; i++) {
+            nv[i] = new NV();
+        }
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("nhan vien thu " + (i + 1) + ": ");
+            nv[i].input();
+            dsnv.add(nv[i]);
+        }
+        this.writeToDataNV(dsnv);
+    }
+
+
+    public void createPasswordAdmin(String id, String password) {
+        try{
+            FileWriter fw = new FileWriter("DSAD.txt", true);
+            fw.write(id + "," + password + "\n");
+            fw.close();
+        } catch (Exception e) {
 
         }
-        return list;
     }
 
-    @Override
-    public String toString() {
-        String temp = super.toString();
-        return temp +
-                "," + salary +
-                "," + timeWork +
-                "," + chucVu;
+    public void writeToDataNV(ArrayList<NV> dsNV) {
+        try {
+            FileWriter fw = new FileWriter("DSNV.txt");
+            for (NV x: dsNV) {
+                fw.write(x.toString() + "\n");
+            }
+            fw.close();
+        } catch ( Exception e) {
+        }
     }
-
     private String chucVu;
 
 }
